@@ -286,6 +286,8 @@ class BudgetTracker(tk.Tk):
         self.bind("<Return>", lambda e: self._add_transaction())
         # Ctrl+D — delete selected transaction
         self.bind("<Control-d>", lambda e: self._delete_selected())
+        # Escape — reset the input form
+        self.bind("<Escape>", lambda e: self._clear_form())
 
         btn_row = tk.Frame(inner, bg=BG_CARD)
         btn_row.pack(fill="x", pady=(12, 4))
