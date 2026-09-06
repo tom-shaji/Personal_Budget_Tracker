@@ -70,6 +70,9 @@ def load_transactions():
         reader = csv.DictReader(f)
         for row in reader:
             try:
+                # Strip leading/trailing whitespace from every string field
+                row = {k: v.strip() if isinstance(v, str) else v
+                       for k, v in row.items()}
                 row["amount"] = float(row["amount"])
                 transactions.append(row)
             except ValueError:
