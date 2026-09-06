@@ -368,8 +368,10 @@ class BudgetTracker(tk.Tk):
         self.tree.pack(fill="both", expand=True, padx=10, pady=(0, 4))
 
         # Tag colours for income / expense rows
-        self.tree.tag_configure("income",  foreground=ACCENT_GREEN)
-        self.tree.tag_configure("expense", foreground=ACCENT_RED)
+        self.tree.tag_configure("income",     foreground=ACCENT_GREEN)
+        self.tree.tag_configure("expense",    foreground=ACCENT_RED)
+        self.tree.tag_configure("odd_income", foreground=ACCENT_GREEN, background="#1E2A20")
+        self.tree.tag_configure("odd_expense",foreground=ACCENT_RED,   background="#2A1E1E")
 
     # ── Pie chart ─────────────────────────────────────────────────────────────
 
@@ -552,7 +554,11 @@ class BudgetTracker(tk.Tk):
             self.tree.heading("idx", text="")
 
         for i, t in enumerate(self.transactions):
-            tag = "income" if t["type"] == "Income" else "expense"
+            is_odd = i % 2 == 1
+            if t["type"] == "Income":
+                tag = "odd_income" if is_odd else "income"
+            else:
+                tag = "odd_expense" if is_odd else "expense"
             sign = "+" if t["type"] == "Income" else "-"
             self.tree.insert(
                 "", "end",
