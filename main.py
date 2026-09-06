@@ -344,21 +344,25 @@ class BudgetTracker(tk.Tk):
         btn_frame = tk.Frame(card, bg=BG_CARD)
         btn_frame.pack(fill="x", padx=14, pady=10)
 
-        tk.Button(
+        del_btn = tk.Button(
             btn_frame, text="🗑  Delete Selected",
             font=("Segoe UI", 10, "bold"),
             bg=ACCENT_RED, fg="white", relief="flat",
             activebackground="#C0392B", cursor="hand2", pady=7,
             command=self._delete_selected
-        ).pack(fill="x", pady=(0, 6))
+        )
+        del_btn.pack(fill="x", pady=(0, 6))
+        ToolTip(del_btn, "Select a row, then click  —  or press Ctrl+D")
 
-        tk.Button(
+        clr_btn = tk.Button(
             btn_frame, text="🧹  Clear All Transactions",
             font=("Segoe UI", 10),
             bg=BG_ENTRY, fg=TEXT_MUTED, relief="flat",
             activebackground=BORDER_COLOR, cursor="hand2", pady=7,
             command=self._clear_all
-        ).pack(fill="x")
+        )
+        clr_btn.pack(fill="x")
+        ToolTip(clr_btn, "Permanently delete every transaction")
 
     # ── Transaction table ─────────────────────────────────────────────────────
 
