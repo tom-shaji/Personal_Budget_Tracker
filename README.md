@@ -1,5 +1,10 @@
 # 💰 Personal Budget Tracker
 
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
+![GUI](https://img.shields.io/badge/GUI-Tkinter-orange)
+
 A clean, beginner-friendly **desktop application** for tracking personal income and expenses — built with **Python**, **Tkinter**, and **Matplotlib**.
 
 ---
