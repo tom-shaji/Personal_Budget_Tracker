@@ -240,6 +240,9 @@ class BudgetTracker(tk.Tk):
         self._entry(inner, self.desc_var).pack(fill="x", pady=(2, 4))
 
         # Add button
+        # Press Enter anywhere in the form to submit
+        self.bind("<Return>", lambda e: self._add_transaction())
+
         tk.Button(
             inner, text="  ✚  Add Transaction  ",
             font=("Segoe UI", 11, "bold"),
