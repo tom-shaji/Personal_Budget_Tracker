@@ -188,6 +188,25 @@ class BudgetTracker(tk.Tk):
 
     def _build_ui(self):
         """Assemble all UI sections."""
+        # ── Menubar ───────────────────────────────────────────────────────────
+        menubar = tk.Menu(self, bg=BG_CARD, fg=TEXT_PRIMARY,
+                          activebackground=ACCENT_BLUE, activeforeground="white")
+
+        file_menu = tk.Menu(menubar, tearoff=0, bg=BG_CARD, fg=TEXT_PRIMARY,
+                            activebackground=ACCENT_BLUE, activeforeground="white")
+        file_menu.add_command(label="Monthly Summary",   command=self._show_monthly)
+        file_menu.add_command(label="Export CSV Backup", command=self._export_backup)
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit", command=self.quit)
+        menubar.add_cascade(label="File", menu=file_menu)
+
+        help_menu = tk.Menu(menubar, tearoff=0, bg=BG_CARD, fg=TEXT_PRIMARY,
+                            activebackground=ACCENT_BLUE, activeforeground="white")
+        help_menu.add_command(label="About", command=self._show_about)
+        menubar.add_cascade(label="Help", menu=help_menu)
+
+        self.config(menu=menubar)
+
         # ── Title bar ────────────────────────────────────────────────────────
         title_frame = tk.Frame(self, bg=BG_DARK, pady=12)
         title_frame.pack(fill="x", padx=20)
@@ -779,6 +798,45 @@ class BudgetTracker(tk.Tk):
     def _set_status(self, msg: str):
         """Update the status bar text."""
         self.statusbar.config(text=msg)
+
+    # ── Menubar handlers ──────────────────────────────────────────────────────
+
+    def _show_monthly(self):
+        """Popup: current month's income and expense totals."""
+        from datetime import datetime
+        now = datetime.now()
+        ms  = now.strftime("%Y-%m")
+        inc = sum(t["amount"] for t in self.transactions
+                  if t["type"] == "Income"  and t["date"].startswith(ms))
+        exp = sum(t["amount"] for t in self.transactions
+                  if t["type"] == "Expense" and t["date"].startswith(ms))
+        label = now.strftime("%B %Y")
+        messagebox.showinfo(
+            f"Monthly Summary — {label}",
+            f"📅  {label}\n\n"
+            f"  Income  :  ₹{inc:,.2f}\n"
+            f"  Expenses:  ₹{exp:,.2f}\n"
+            f"  Balance :  ₹{inc - exp:,.2f}"
+        )
+
+    def _export_backup(self):
+        """Copy budget_data.csv to a timestamped backup file."""
+        import shutil as _sh
+        from datetime import datetime
+        stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        name  = f"budget_backup_{stamp}.csv"
+        _sh.copy(CSV_FILE, name)
+        messagebox.showinfo("Backup Saved", f"Saved as:\n{name}")
+
+    def _show_about(self):
+        messagebox.showinfo(
+            "About — Personal Budget Tracker",
+            "💰 Personal Budget Tracker\n\n"
+            "Version 1.0.0\n"
+            "Built with Python, Tkinter & Matplotlib\n\n"
+            "© 2026 tom-shaji — MIT License"
+        )
+
 
 
 # =============================================================================
