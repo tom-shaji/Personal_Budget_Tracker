@@ -1,7 +1,15 @@
 # =============================================================================
-# Personal Budget Tracker
+# Personal Budget Tracker  v1.0.0
 # A desktop application built with Python, Tkinter, and Matplotlib.
+#
+# Usage  : python main.py
+# Licence: MIT — © 2026 tom-shaji
 # =============================================================================
+
+__version__ = "1.0.0"
+__author__  = "tom-shaji"
+__license__ = "MIT"
+
 
 import tkinter as tk
 from tkinter import ttk, messagebox
