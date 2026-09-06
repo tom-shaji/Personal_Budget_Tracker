@@ -375,6 +375,18 @@ class BudgetTracker(tk.Tk):
         card = self._card(parent, "📋  All Transactions")
         card.pack(fill="both", expand=True, pady=(0, 10))
 
+        # ── Live search bar ───────────────────────────────────────────────
+        search_frame = tk.Frame(card, bg=BG_CARD)
+        search_frame.pack(fill="x", padx=10, pady=(6, 2))
+        tk.Label(search_frame, text="🔍", font=("Segoe UI", 11),
+                 bg=BG_CARD, fg=TEXT_MUTED).pack(side="left", padx=(0, 4))
+        self.search_var = tk.StringVar()
+        self.search_var.trace_add("write", self._on_search_changed)
+        tk.Entry(search_frame, textvariable=self.search_var,
+                 font=("Segoe UI", 10), bg=BG_ENTRY, fg=TEXT_PRIMARY,
+                 insertbackground=TEXT_PRIMARY, relief="flat", bd=4
+                 ).pack(side="left", fill="x", expand=True)
+
         style = ttk.Style()
         style.theme_use("clam")
         style.configure(
@@ -576,6 +588,23 @@ class BudgetTracker(tk.Tk):
         self.date_var.set(str(date.today()))
         self.desc_var.set("")
         self.category_combo.current(0)
+
+    def _on_search_changed(self, *_):
+        """Filter table rows to those matching the live search query."""
+        query = self.search_var.get().lower().strip()
+        for child in self.tree.get_children():
+            self.tree.delete(child)
+        for i, t in enumerate(self.transactions):
+            if query and not any(query in str(v).lower() for v in t.values()):
+                continue
+            is_odd = i % 2 == 1
+            tag = ("odd_income" if is_odd else "income") if t["type"] == "Income"                   else ("odd_expense" if is_odd else "expense")
+            sign = "+" if t["type"] == "Income" else "-"
+            self.tree.insert("", "end",
+                values=(t["type"], t["category"],
+                        f"{sign}₹{float(t['amount']):,.2f}",
+                        t["date"], t["description"], i),
+                tags=(tag,))
 
     def _sort_tree(self, col):
         """Sort table by column header click (toggle asc/desc)."""
