@@ -253,14 +253,26 @@ class BudgetTracker(tk.Tk):
         # Press Enter anywhere in the form to submit
         self.bind("<Return>", lambda e: self._add_transaction())
 
+        btn_row = tk.Frame(inner, bg=BG_CARD)
+        btn_row.pack(fill="x", pady=(12, 4))
+
         tk.Button(
-            inner, text="  ✚  Add Transaction  ",
+            btn_row, text="  ✚  Add  ",
             font=("Segoe UI", 11, "bold"),
             bg=ACCENT_BLUE, fg="white", relief="flat",
             activebackground="#3A58D4", activeforeground="white",
             cursor="hand2", pady=8,
             command=self._add_transaction
-        ).pack(fill="x", pady=(12, 4))
+        ).pack(side="left", fill="x", expand=True, padx=(0, 4))
+
+        tk.Button(
+            btn_row, text="↺ Reset",
+            font=("Segoe UI", 10),
+            bg=BG_ENTRY, fg=TEXT_MUTED, relief="flat",
+            activebackground=BORDER_COLOR,
+            cursor="hand2", pady=8,
+            command=self._clear_form
+        ).pack(side="left")
 
     # ── Summary ───────────────────────────────────────────────────────────────
 
