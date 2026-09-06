@@ -626,12 +626,18 @@ class BudgetTracker(tk.Tk):
         sizes  = list(expense_map.values())
         colors = [PIE_COLORS[i % len(PIE_COLORS)] for i in range(len(labels))]
 
-        wedges, _ = self.ax.pie(
+        wedges, _, autotexts = self.ax.pie(
             sizes,
             colors=colors,
             startangle=140,
+            autopct=lambda p: f"{p:.1f}%" if p >= 5 else "",
+            pctdistance=0.78,
             wedgeprops=dict(linewidth=2, edgecolor=BG_CARD)
         )
+        for at in autotexts:
+            at.set_color("white")
+            at.set_fontsize(7.5)
+            at.set_fontweight("bold")
 
         # Legend to the right of the pie
         legend_labels = [f"{l}  ₹{v:,.0f}" for l, v in zip(labels, sizes)]
