@@ -668,6 +668,18 @@ class BudgetTracker(tk.Tk):
         self.lbl_balance.config(text=f"₹{balance:,.2f}", fg=bal_color)
         self.lbl_count.config(text=str(count))
 
+        # Live savings rate in the status bar
+        if total_income > 0:
+            rate   = ((total_income - total_expense) / total_income) * 100
+            status = (f"💡 Savings rate: {rate:.1f}%  │  "
+                      f"Income: ₹{total_income:,.2f}  │  "
+                      f"Expenses: ₹{total_expense:,.2f}")
+        elif count == 0:
+            status = "Ready — add your first transaction to get started."
+        else:
+            status = f"Expenses: ₹{total_expense:,.2f}  │  No income recorded yet."
+        self._set_status(status)
+
     def _refresh_chart(self):
         """Redraw the expenses-by-category pie chart."""
         self.ax.clear()
