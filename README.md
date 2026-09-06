@@ -120,3 +120,19 @@ Income,Salary,50000.00,2025-06-01,Monthly salary
 ## 📝 License
 
 This project is open-source and free to use for personal or educational purposes.
+
+---
+
+## ❓ FAQ
+
+**Q: Where is my data stored?**
+A: In `budget_data.csv` in the same folder as `main.py`. Back this file up to keep your history.
+
+**Q: Can I edit the CSV directly?**
+A: Yes — make sure amounts are valid numbers and dates use `YYYY-MM-DD` format.
+
+**Q: Does it work on Mac / Linux?**
+A: Yes — Python, Tkinter, and Matplotlib are all cross-platform.
+
+**Q: How do I reset all data?**
+A: Click *Clear All Transactions* inside the app, or delete `budget_data.csv`.
