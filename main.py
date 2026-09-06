@@ -230,9 +230,16 @@ class BudgetTracker(tk.Tk):
         self._entry(inner, self.amount_var).pack(fill="x", pady=(2, 8))
 
         # Date
-        self._label(inner, f"Date  (YYYY-MM-DD)")
+        self._label(inner, "Date  (YYYY-MM-DD)")
         self.date_var = tk.StringVar(value=str(date.today()))
-        self._entry(inner, self.date_var).pack(fill="x", pady=(2, 8))
+        date_row = tk.Frame(inner, bg=BG_CARD)
+        date_row.pack(fill="x", pady=(2, 8))
+        self._entry(date_row, self.date_var).pack(side="left", fill="x", expand=True)
+        tk.Button(
+            date_row, text="Today", font=("Segoe UI", 8),
+            bg=ACCENT_BLUE, fg="white", relief="flat", padx=6, cursor="hand2",
+            command=lambda: self.date_var.set(str(date.today()))
+        ).pack(side="left", padx=(4, 0))
 
         # Description
         self._label(inner, "Description")
