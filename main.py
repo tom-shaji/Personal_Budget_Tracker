@@ -86,7 +86,9 @@ def save_transactions(transactions):
         writer = csv.DictWriter(f, fieldnames=CSV_HEADERS)
         writer.writeheader()
         for t in transactions:
-            writer.writerow(t)
+            row = dict(t)
+            row["amount"] = f"{float(row['amount']):.2f}"  # always 2 dp
+            writer.writerow(row)
 
 
 def append_transaction(transaction):
