@@ -187,6 +187,8 @@ class BudgetTracker(tk.Tk):
         self._build_table(right)
         self._build_chart(right)
 
+        self._build_statusbar()
+
     # ── Form ──────────────────────────────────────────────────────────────────
 
     def _build_form(self, parent):
@@ -467,6 +469,7 @@ class BudgetTracker(tk.Tk):
         self._refresh_summary()
         self._refresh_chart()
         self._clear_form()
+        self._set_status(f"✅  {t_type} of ₹{amt:,.2f} added — {t_date}")
         messagebox.showinfo("Success", f"{t_type} of ₹{amt:.2f} added successfully! ✅")
 
     def _delete_selected(self):
@@ -626,6 +629,20 @@ class BudgetTracker(tk.Tk):
             fontsize=10, pad=4
         )
         self.canvas_widget.draw()
+
+
+    def _build_statusbar(self):
+        """Thin status bar pinned to the bottom of the window."""
+        self.statusbar = tk.Label(
+            self, text="Ready — add your first transaction to get started.",
+            font=("Segoe UI", 9), bg=BG_ENTRY, fg=TEXT_MUTED,
+            anchor="w", padx=12, pady=4
+        )
+        self.statusbar.pack(fill="x", side="bottom")
+
+    def _set_status(self, msg: str):
+        """Update the status bar text."""
+        self.statusbar.config(text=msg)
 
 
 # =============================================================================
