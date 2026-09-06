@@ -607,16 +607,33 @@ class BudgetTracker(tk.Tk):
                 tags=(tag,))
 
     def _sort_tree(self, col):
-        """Sort table by column header click (toggle asc/desc)."""
+        """Sort table by column header click; toggles asc/desc and shows arrow."""
+        if not hasattr(self, "_sort_state"):
+            self._sort_state = {}
+        reverse = self._sort_state.get(col, False)
         data = [(self.tree.set(child, col), child)
                 for child in self.tree.get_children("")]
         try:
-            data.sort(key=lambda x: float(x[0].replace("₹", "").replace(",", "")))
+            data.sort(
+                key=lambda x: float(
+                    x[0].replace("₹","").replace(",","").replace("+","").replace("-","")),
+                reverse=reverse
+            )
         except ValueError:
-            data.sort()
+            data.sort(reverse=reverse)
 
         for index, (_, child) in enumerate(data):
             self.tree.move(child, "", index)
+
+        _COL_LABELS = {
+            "type": "Type", "category": "Category", "amount": "Amount (₹)",
+            "date": "Date", "description": "Description"
+        }
+        for c, label in _COL_LABELS.items():
+            arrow = (" ↑" if not reverse else " ↓") if c == col else ""
+            self.tree.heading(c, text=label + arrow)
+
+        self._sort_state[col] = not reverse
 
     # -------------------------------------------------------------------------
     # Refresh methods
