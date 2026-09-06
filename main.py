@@ -143,6 +143,7 @@ class BudgetTracker(tk.Tk):
         self._refresh_table()
         self._refresh_summary()
         self._refresh_chart()
+        self._refresh_title()
 
     # -------------------------------------------------------------------------
     # UI construction
@@ -468,6 +469,7 @@ class BudgetTracker(tk.Tk):
         self._refresh_table()
         self._refresh_summary()
         self._refresh_chart()
+        self._refresh_title()
         self._clear_form()
         self._set_status(f"✅  {t_type} of ₹{amt:,.2f} added — {t_date}")
         messagebox.showinfo("Success", f"{t_type} of ₹{amt:.2f} added successfully! ✅")
@@ -492,6 +494,7 @@ class BudgetTracker(tk.Tk):
         self._refresh_table()
         self._refresh_summary()
         self._refresh_chart()
+        self._refresh_title()
 
     def _clear_all(self):
         """Delete every transaction after confirmation."""
@@ -510,6 +513,7 @@ class BudgetTracker(tk.Tk):
         self._refresh_table()
         self._refresh_summary()
         self._refresh_chart()
+        self._refresh_title()
         messagebox.showinfo("Cleared", "All transactions have been deleted.")
 
     def _clear_form(self):
@@ -630,6 +634,11 @@ class BudgetTracker(tk.Tk):
         )
         self.canvas_widget.draw()
 
+
+    def _refresh_title(self):
+        """Keep the window title in sync with the transaction count."""
+        n = len(self.transactions)
+        self.title(f"💰 Personal Budget Tracker  —  {n} transaction{'s' if n != 1 else ''}")
 
     def _build_statusbar(self):
         """Thin status bar pinned to the bottom of the window."""
